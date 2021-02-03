@@ -524,6 +524,16 @@ func DBInit(db *gorm.DB) error {
 				return tx.AutoMigrate(&ACL{}).Error
 			},
 			Rollback: func(tx *gorm.DB) error { return fmt.Errorf("not implemented") },
+		}, {
+			ID: "33",
+			Migrate: func(tx *gorm.DB) error {
+				type Host struct {
+					gorm.Model
+					Name string `gorm:"size:255" valid:"required,length(1|255)"`
+				}
+				return tx.AutoMigrate(&Host{}).Error
+			},
+			Rollback: func(tx *gorm.DB) error { return fmt.Errorf("not implemented") },
 		},
 	})
 	if err := m.Migrate(); err != nil {
